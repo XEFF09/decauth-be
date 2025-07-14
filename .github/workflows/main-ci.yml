@@ -62,9 +62,13 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          IMAGE_NAME="${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${NEW_TAG}"
-          docker build -f infra/docker/prod.Dockerfile -t "${IMAGE_NAME}" .
-          docker push "${IMAGE_NAME}"
+          IMAGE_VERSION="${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${NEW_TAG}"
+          IMAGE_LATEST="${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest"
+
+          docker build -f infra/docker/prod.Dockerfile -t "${IMAGE_VERSION}" -t "${IMAGE_LATEST}" .
+
+          docker push "${IMAGE_VERSION}"
+          docker push "${IMAGE_LATEST}"
 
   release:
     name: Create GitHub Release

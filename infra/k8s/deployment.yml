@@ -15,4 +15,4 @@ spec:
     spec:
       containers:
         - name: decauth-be
-          image: xeff09/decauth-be:v0.1.0
+          image: xeff09/decauth-be:latest
