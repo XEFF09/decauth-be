@@ -8,6 +8,7 @@ import (
 
 func setup() *fiber.App {
 	app := fiber.New()
+	// TODO:
 	// cfg := config.NewConfig()
 	// db := bootstrap.NewDB(&cfg)
 	// ctx := ctx.ProvideContext()
