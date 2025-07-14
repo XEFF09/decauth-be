@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: decauth-be-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: decauth-be
+  template:
+    metadata:
+      name: decauth-be-pods
+      labels:
+        app: decauth-be
+    spec:
+      containers:
+        - name: decauth-be
+          image: xeff09/decauth-be:v0.1.0
