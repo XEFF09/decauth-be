@@ -1,15 +1,20 @@
-name: Main CI
-
+name: "Main CI"
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      version_type:
+        description: "Version bump type (patch, minor, major)"
+        required: false
+        default: "patch"
 
 permissions:
   contents: write
   id-token: write
 
 env:
-  GO_VERSION: "1.24"
+  GO_VERSION: 1.24
   APP_NAME: "decauth-be"
 
 jobs:
@@ -33,17 +38,27 @@ jobs:
       - name: Generate Next Version Tag
         id: versioning
         run: |
+          VERSION_TYPE="${{ github.event.inputs.version_type || 'patch' }}"
           LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+
           if [[ -z "$LATEST_TAG" ]]; then
             NEW_TAG="v0.1.0"
           else
-            MAJOR=$(echo "$LATEST_TAG" | cut -d. -f1)
+            MAJOR=$(echo "$LATEST_TAG" | cut -d. -f1 | tr -d 'v')
             MINOR=$(echo "$LATEST_TAG" | cut -d. -f2)
             PATCH=$(echo "$LATEST_TAG" | cut -d. -f3)
-            NEW_TAG="${MAJOR}.${MINOR}.$((PATCH + 1))"
+
+            if [[ "$VERSION_TYPE" == "major" ]]; then
+              NEW_TAG="v$((MAJOR + 1)).0.0"
+            elif [[ "$VERSION_TYPE" == "minor" ]]; then
+              NEW_TAG="v$MAJOR.$((MINOR + 1)).0"
+            else
+              NEW_TAG="v$MAJOR.$MINOR.$((PATCH + 1))"
+            fi
           fi
-          echo "NEW_TAG=v${NEW_TAG#v}" >> $GITHUB_OUTPUT
-          echo "NEW_TAG=v${NEW_TAG#v}" >> $GITHUB_ENV
+
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_OUTPUT
+          echo "NEW_TAG=$NEW_TAG" >> $GITHUB_ENV
 
       - name: Build and Push Docker Image
         run: |
