@@ -30,7 +30,7 @@ migrate:
 # k8s
 
 kube-apply:
-	@ kubectl apply -f ./infra/k8s/deployment.yml
+	@ kubectl apply -f ./infra/k8s/.
 
 kube-reset:
 	@ kubectl delete all --all
