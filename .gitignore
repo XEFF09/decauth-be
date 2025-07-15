@@ -1,3 +1,2 @@
 .env
 tmp_app/
-infra/k8s/kustomization/*.env
