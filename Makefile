@@ -29,8 +29,8 @@ migrate:
 
 # k8s
 
-kube-apply:
+kube-a:
 	@ kubectl apply -f ./infra/k8s/.
 
-kube-reset:
+kube-r:
 	@ kubectl delete all --all

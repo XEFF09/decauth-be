@@ -4,13 +4,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+
+	"github.com/XEFF09/decauth-be/setup"
 )
 
-func setup() *fiber.App {
+func initApp() *fiber.App {
 	app := fiber.New()
 	// TODO:
-	// cfg := config.NewConfig()
-	// db := bootstrap.NewDB(&cfg)
+	cfg := setup.NewConfig()
+	db := setup.NewDB(&cfg)
 	// ctx := ctx.ProvideContext()
 
 	app.Use(logger.New())
@@ -25,7 +27,21 @@ func setup() *fiber.App {
 		return c.SendString("decauth is running 🚀")
 	})
 
-	// TODO: auth
+	app.Get("/db", func(c *fiber.Ctx) error {
+		// test database connection
+
+		dbConn, err := db.DB()
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+				"message": err.Error(),
+			})
+		}
+		return c.Status(fiber.StatusOK).JSON(fiber.Map{
+			"message": "✅ Database connection is successful",
+			"data":    dbConn.Stats(),
+		})
+	})
+
 	// oauthRepoFactory := repository.NewOAuthRepositoryFactory()
 	// oauthRepoFactory.Register("google", oauth.NewGoogleOAuthRepository(&cfg))
 	//
@@ -46,6 +62,6 @@ func setup() *fiber.App {
 }
 
 func main() {
-	app := setup()
+	app := initApp()
 	app.Listen(":9090")
 }

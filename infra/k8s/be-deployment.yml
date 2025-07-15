@@ -16,3 +16,16 @@ spec:
       containers:
         - name: decauth-be
           image: xeff09/decauth-be:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: decauth-be-service
+spec:
+  type: NodePort
+  selector:
+    app: decauth-be
+  ports:
+    - port: 9090
+      targetPort: 9090
+      nodePort: 30001
