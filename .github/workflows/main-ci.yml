@@ -38,14 +38,7 @@ jobs:
       - name: Generate Next Version Tag
         id: versioning
         run: |
-          VERSION_TYPE="${{ github.event.inputs.version_type }}"
-          if [[ -f VERSION_TYPE ]]; then
-            VERSION_TYPE=$(cat VERSION_TYPE)
-            echo "this is $VERSION_TYPE"
-          fi
-
-          echo "Using VERSION_TYPE=$VERSION_TYPE"
-
+          VERSION_TYPE="${{ github.event.inputs.version_type || 'patch' }}"
           LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
 
           if [[ -z "$LATEST_TAG" ]]; then
