@@ -35,4 +35,4 @@ TYPE ?= patch
 
 release:
 	@ echo "Attaching with Version=$(TYPE)..."
-	@ echo $(TYPE) > VERSION_TYPE 
+	@ echo "$(TYPE)" > VERSION_TYPE 
