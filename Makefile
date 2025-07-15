@@ -26,11 +26,3 @@ follow:
 
 migrate:
 	@ docker exec -it decauth-app-1 go run ./command/migrate.db.go 
-
-# k8s
-
-kube-a:
-	@ kubectl apply -f ./infra/k8s/.
-
-kube-r:
-	@ kubectl delete all --all
