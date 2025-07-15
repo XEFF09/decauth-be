@@ -38,9 +38,8 @@ jobs:
       - name: Generate Next Version Tag
         id: versioning
         run: |
-          if [[ -n "${{ github.event.inputs.version_type }}" ]]; then
-            VERSION_TYPE="${{ github.event.inputs.version_type }}"
-          elif [[ -f VERSION_TYPE ]]; then
+          VERSION_TYPE="${{ github.event.inputs.version_type }}"
+          if [[ -f VERSION_TYPE ]]; then
             VERSION_TYPE=$(cat VERSION_TYPE | tr -d '[:space:]')
           else
             VERSION_TYPE="patch"
