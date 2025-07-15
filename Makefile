@@ -26,3 +26,13 @@ follow:
 
 migrate:
 	@ docker exec -it decauth-app-1 go run ./command/migrate.db.go 
+
+# version control
+
+.PHONY: release
+
+TYPE ?= patch
+
+release:
+	@ echo "Attaching with Version=$(TYPE)..."
+	@ echo $(TYPE) > VERSION_TYPE 
