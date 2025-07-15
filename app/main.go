@@ -23,11 +23,11 @@ func initApp() *fiber.App {
 		AllowHeaders: "Content-Type,Authorization",
 	}))
 
-	app.Get("/", func(c *fiber.Ctx) error {
+	apiRoute := app.Group("/api")
+	apiRoute.Get("/", func(c *fiber.Ctx) error {
 		return c.SendString("decauth is running 🚀")
 	})
-
-	app.Get("/db", func(c *fiber.Ctx) error {
+	apiRoute.Get("/db", func(c *fiber.Ctx) error {
 		// test database connection
 
 		dbConn, err := db.DB()
