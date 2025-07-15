@@ -41,6 +41,7 @@ jobs:
           VERSION_TYPE="${{ github.event.inputs.version_type }}"
           if [[ -f VERSION_TYPE ]]; then
             VERSION_TYPE=$(cat VERSION_TYPE)
+            echo "this is $VERSION_TYPE"
           fi
 
           echo "Using VERSION_TYPE=$VERSION_TYPE"
