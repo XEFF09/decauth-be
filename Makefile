@@ -34,5 +34,9 @@ migrate:
 TYPE ?= patch
 
 release:
-	@ echo "Attaching with Version=$(TYPE)..."
-	@ echo "$(TYPE)" > VERSION_TYPE 
+	@ if [ "$(TYPE)" != "major" ] && [ "$(TYPE)" != "minor" ] && [ "$(TYPE)" != "patch" ]; then \
+		echo "❌ Invalid TYPE: $(TYPE). Must be one of: major, minor, patch."; \
+		exit 1; \
+	fi
+	@ echo "✅ Attaching with Version=$(TYPE)..."
+	@ echo "$(TYPE)" > VERSION_TYPE

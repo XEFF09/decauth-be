@@ -40,7 +40,7 @@ jobs:
         run: |
           VERSION_TYPE="${{ github.event.inputs.version_type }}"
           if [[ -f VERSION_TYPE ]]; then
-            VERSION_TYPE=$(cat VERSION_TYPE | tr -d '[:space:]')
+            VERSION_TYPE=$(cat VERSION_TYPE)
           fi
 
           echo "Using VERSION_TYPE=$VERSION_TYPE"
